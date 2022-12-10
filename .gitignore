@@ -1,1 +1,9 @@
+# Wiki dev temp content
 Web/Ref/Demos.wiki/
+
+# Source build files
+Client/Code/nRF52832/Output/
+Client/Code/nRF52840/Output/
+Server/Code/nRF52832/Output/
+Server/Code/nRF52840/Output/
+
