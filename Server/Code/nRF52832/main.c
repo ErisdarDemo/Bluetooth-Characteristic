@@ -715,10 +715,13 @@ static void idle_state_handle(void) {
  *  @details	x
  *		
  *  @section	Opens
- *     stdComments
- *     printf on activities
- *     activities for all buttons
- *     ...!
+ *      tie all (4) LED/Button pairs (sep bt-chars?)
+ *      break into demo form
+ *       flush out distracting content to bt_lib.c/h
+ *       establish target demo form
+ *      printf on activities
+ *      activities for all buttons
+ *      ...!
  */
 /*************************************************************************************************/
 int main(void) {
