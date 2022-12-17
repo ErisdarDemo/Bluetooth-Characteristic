@@ -54,8 +54,6 @@
  <Watch4>
   <Watches active="0" update="Never"/>
  </Watch4>
- <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="8" y="639" useTextEdit="1" path="main.c" left="0" selected="1" top="612" codecName="Default"/>
- </Files>
+ <Files/>
  <EMStudioWindow activeProject="ble_app_blinky_c_pca10056_s140" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>
