@@ -131,36 +131,6 @@ void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name) {
 /** @fcn	static void leds_init(void)
  *  @brief	function for the LEDs initialization
  *  @details	initializes all LEDs used by the application
- *
- *  @section	Purpose
- *      x
- *
- *  @param	[in]	name	descrip
- *
- *  @param	[out]	name	descrip
- *
- *  @return	(type) descrip
- *
- *  @pre	x
- *
- *  @post	x
- *
- *  @section	Operation
- *	x
- *		
- *  @section	Opens
- *  	x
- *
- *  @section	Hazards & Risks
- *  	x
- *
- *  @section	Todo
- *	x
- *
- *  @section	Timing
- *  	x
- *
- *  @note     x
  */
 /*************************************************************************************************/
 static void leds_init(void) {
@@ -310,9 +280,6 @@ static void nrf_qwr_error_handler(uint32_t nrf_error) {
  *  @brief	function for handling write events to the LED characteristic
  *  @details	x
  *
- *  @section	Purpose
- *      x
- *
  *  @param	[in] (uint16_t) conn_handle - x
  *  @param      [in] (ble_lbs_t *) p_lbs - Instance of LED Button Service to which the write applies.
  *  @param      [in] (uint8_t) led_state - Written/desired state of the LED.
@@ -320,13 +287,10 @@ static void nrf_qwr_error_handler(uint32_t nrf_error) {
 /*************************************************************************************************/
 static void led_write_handler(uint16_t conn_handle, ble_lbs_t * p_lbs, uint8_t led_state) {
 
-    if (led_state)
-    {
+    if (led_state) {
         bsp_board_led_on(LEDBUTTON_LED);
         NRF_LOG_INFO("Received LED ON!");
-    }
-    else
-    {
+    } else {
         bsp_board_led_off(LEDBUTTON_LED);
         NRF_LOG_INFO("Received LED OFF!");
     }
@@ -369,7 +333,6 @@ static void services_init(void) {
  *  @details	this function will be called for all events in the Connection Parameters Module 
  *              that are passed to the application
  *
- *
  *  @param	[in] (ble_conn_params_evt_t *) p_evt - Event received from the Connection 
                                                        Parameters Module
  *
@@ -383,8 +346,7 @@ static void on_conn_params_evt(ble_conn_params_evt_t * p_evt) {
 
     ret_code_t err_code;
 
-    if (p_evt->evt_type == BLE_CONN_PARAMS_EVT_FAILED)
-    {
+    if (p_evt->evt_type == BLE_CONN_PARAMS_EVT_FAILED) {
         err_code = sd_ble_gap_disconnect(m_conn_handle, BLE_HCI_CONN_INTERVAL_UNACCEPTABLE);
         APP_ERROR_CHECK(err_code);
     }
@@ -397,7 +359,6 @@ static void on_conn_params_evt(ble_conn_params_evt_t * p_evt) {
 /** @fcn	static void conn_params_error_handler(uint32_t nrf_error)
  *  @brief	function for handling a Connection Parameters error
  *  @details	x
- *
  *
  *  @param	[in] (uint32_t)  nrf_error - Error code containing information about what went wrong
  */
@@ -463,7 +424,6 @@ static void advertising_start(void) {
  *  @brief	function for handling BLE events
  *  @details	x
  *
- *
  *  @param      [in] (ble_evt_t const *) p_ble_evt - Bluetooth stack event
  *  @param      [in] (void *) p_context - Unused
  */
@@ -472,8 +432,7 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
 
     ret_code_t err_code;
 
-    switch (p_ble_evt->header.evt_id)
-    {
+    switch (p_ble_evt->header.evt_id) {
         case BLE_GAP_EVT_CONNECTED:
             NRF_LOG_INFO("Connected");
             bsp_board_led_on(CONNECTED_LED);
@@ -503,8 +462,7 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
             APP_ERROR_CHECK(err_code);
             break;
 
-        case BLE_GAP_EVT_PHY_UPDATE_REQUEST:
-        {
+        case BLE_GAP_EVT_PHY_UPDATE_REQUEST: {
             NRF_LOG_DEBUG("PHY update request.");
             ble_gap_phys_t const phys =
             {
@@ -581,9 +539,6 @@ static void ble_stack_init(void) {
  *  @brief	function for handling events from the button handler module
  *  @details	x
  *
- *  @section	Purpose
- *      x
- *
  *  @param      [in] (uint8_t) pin_no - pin that the event applies to
  *  @param      [in] (uint8_t) button_action - the button action (press/release)
  */
@@ -592,8 +547,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action) {
 
     ret_code_t err_code;
 
-    switch (pin_no)
-    {
+    switch (pin_no) {
         case LEDBUTTON_BUTTON:
             NRF_LOG_INFO("Send button state change.");
             err_code = ble_lbs_on_button_change(m_conn_handle, &m_lbs, button_action);
@@ -680,8 +634,7 @@ static void power_management_init(void) {
 /*************************************************************************************************/
 static void idle_state_handle(void) {
 
-    if (NRF_LOG_PROCESS() == false)
-    {
+    if (NRF_LOG_PROCESS() == false) {
         nrf_pwr_mgmt_run();
     }
 
@@ -721,8 +674,7 @@ int main(void) {
     advertising_start();
 
     // Enter main loop.
-    for (;;)
-    {
+    for (;;) {
         idle_state_handle();
     }
 }

@@ -83,51 +83,16 @@ static char const m_target_periph_name[] = "Nordic_Blinky";                 /* N
 
 /*************************************************************************************************/
 /** @fcn	void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name)
- *  @brief	x
- *  @details	x
+ *  @brief	function to handle asserts in the SoftDevice
+ *  @details	this function will be called in case of an assert in the SoftDevice
  *
- *  @section	Purpose
- *      x
  *
- *  @param	[in]	name	descrip
+ *  @param      [in] (uint16_t) line_num - Line number of the failing ASSERT call
+ *  @param      [in] (const uint8_t *) p_file_name - File name of the failing ASSERT call
  *
- *  @param	[out]	name	descrip
- *
- *  @return	(type) descrip
- *
- *  @pre	x
- *
- *  @post	x
- *
- *  @section	Operation
- *	x
- *		
- *  @section	Opens
- *  	x
- *
- *  @section	Hazards & Risks
- *  	x
- *
- *  @section	Todo
- *	x
- *
- *  @section	Timing
- *  	x
- *
- *  @note     x
+ *  @warn   On assert from the SoftDevice, the system can only recover on reset.
  */
 /*************************************************************************************************/
-/**@brief Function to handle asserts in the SoftDevice.
- *
- * @details This function will be called in case of an assert in the SoftDevice.
- *
- * @warning This handler is an example only and does not fit a final product. You need to analyze
- *          how your product is supposed to react in case of Assert.
- * @warning On assert from the SoftDevice, the system can only recover on reset.
- *
- * @param[in] line_num     Line number of the failing ASSERT call.
- * @param[in] p_file_name  File name of the failing ASSERT call.
- */
 void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name) {
 
     app_error_handler(0xDEADBEEF, line_num, p_file_name);
@@ -138,44 +103,12 @@ void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name) {
 
 /*************************************************************************************************/
 /** @fcn	static void lbs_error_handler(uint32_t nrf_error)
- *  @brief	x
+ *  @brief	function for handling the LED Button Service client errors
  *  @details	x
  *
- *  @section	Purpose
- *      x
- *
- *  @param	[in]	name	descrip
- *
- *  @param	[out]	name	descrip
- *
- *  @return	(type) descrip
- *
- *  @pre	x
- *
- *  @post	x
- *
- *  @section	Operation
- *	x
- *		
- *  @section	Opens
- *  	x
- *
- *  @section	Hazards & Risks
- *  	x
- *
- *  @section	Todo
- *	x
- *
- *  @section	Timing
- *  	x
- *
- *  @note     x
+ *  @param	[in] (uint32_t) nrf_error - Error code containing information about what went wrong
  */
 /*************************************************************************************************/
-/**@brief Function for handling the LED Button Service client errors.
- *
- * @param[in]   nrf_error   Error code containing information about what went wrong.
- */
 static void lbs_error_handler(uint32_t nrf_error) {
 
     APP_ERROR_HANDLER(nrf_error);
@@ -186,44 +119,10 @@ static void lbs_error_handler(uint32_t nrf_error) {
 
 /*************************************************************************************************/
 /** @fcn	static void leds_init(void)
- *  @brief	x
- *  @details	x
- *
- *  @section	Purpose
- *      x
- *
- *  @param	[in]	name	descrip
- *
- *  @param	[out]	name	descrip
- *
- *  @return	(type) descrip
- *
- *  @pre	x
- *
- *  @post	x
- *
- *  @section	Operation
- *	x
- *		
- *  @section	Opens
- *  	x
- *
- *  @section	Hazards & Risks
- *  	x
- *
- *  @section	Todo
- *	x
- *
- *  @section	Timing
- *  	x
- *
- *  @note     x
+ *  @brief	function for the LEDs initialization
+ *  @details	initializes all LEDs used by the application
  */
 /*************************************************************************************************/
-/**@brief Function for the LEDs initialization.
- *
- * @details Initializes all LEDs used by the application.
- */
 static void leds_init(void) {
 
     bsp_board_init(BSP_INIT_LEDS);
@@ -234,42 +133,10 @@ static void leds_init(void) {
 
 /*************************************************************************************************/
 /** @fcn	static void scan_start(void)
- *  @brief	x
+ *  @brief	function to start scanning
  *  @details	x
- *
- *  @section	Purpose
- *      x
- *
- *  @param	[in]	name	descrip
- *
- *  @param	[out]	name	descrip
- *
- *  @return	(type) descrip
- *
- *  @pre	x
- *
- *  @post	x
- *
- *  @section	Operation
- *	x
- *		
- *  @section	Opens
- *  	x
- *
- *  @section	Hazards & Risks
- *  	x
- *
- *  @section	Todo
- *	x
- *
- *  @section	Timing
- *  	x
- *
- *  @note     x
  */
 /*************************************************************************************************/
-/**@brief Function to start scanning.
- */
 static void scan_start(void) {
 
     ret_code_t err_code;
@@ -286,48 +153,17 @@ static void scan_start(void) {
 
 /*************************************************************************************************/
 /** @fcn	static void lbs_c_evt_handler(ble_lbs_c_t * p_lbs_c, ble_lbs_c_evt_t * p_lbs_c_evt)
- *  @brief	x
+ *  @brief	handles events coming from the LED Button central module
  *  @details	x
- *
- *  @section	Purpose
- *      x
- *
- *  @param	[in]	name	descrip
- *
- *  @param	[out]	name	descrip
- *
- *  @return	(type) descrip
- *
- *  @pre	x
- *
- *  @post	x
- *
- *  @section	Operation
- *	x
- *		
- *  @section	Opens
- *  	x
- *
- *  @section	Hazards & Risks
- *  	x
- *
- *  @section	Todo
- *	x
- *
- *  @section	Timing
- *  	x
- *
- *  @note     x
+*
+ *  @param	[in] (ble_lbs_c_t *) p_lbs_c - x
+ *  @param	[in] (ble_lbs_c_evt_t *) p_lbs_c_evt - x
  */
 /*************************************************************************************************/
-/**@brief Handles events coming from the LED Button central module.
- */
 static void lbs_c_evt_handler(ble_lbs_c_t * p_lbs_c, ble_lbs_c_evt_t * p_lbs_c_evt) {
 
-    switch (p_lbs_c_evt->evt_type)
-    {
-        case BLE_LBS_C_EVT_DISCOVERY_COMPLETE:
-        {
+    switch (p_lbs_c_evt->evt_type) {
+        case BLE_LBS_C_EVT_DISCOVERY_COMPLETE: {
             ret_code_t err_code;
 
             err_code = ble_lbs_c_handles_assign(&m_ble_lbs_c,
@@ -343,15 +179,11 @@ static void lbs_c_evt_handler(ble_lbs_c_t * p_lbs_c, ble_lbs_c_evt_t * p_lbs_c_e
             APP_ERROR_CHECK(err_code);
         } break; // BLE_LBS_C_EVT_DISCOVERY_COMPLETE
 
-        case BLE_LBS_C_EVT_BUTTON_NOTIFICATION:
-        {
+        case BLE_LBS_C_EVT_BUTTON_NOTIFICATION: {
             NRF_LOG_INFO("Button state changed on peer to 0x%x.", p_lbs_c_evt->params.button.button_state);
-            if (p_lbs_c_evt->params.button.button_state)
-            {
+            if (p_lbs_c_evt->params.button.button_state) {
                 bsp_board_led_on(LEDBUTTON_LED);
-            }
-            else
-            {
+            } else {
                 bsp_board_led_off(LEDBUTTON_LED);
             }
         } break; // BLE_LBS_C_EVT_BUTTON_NOTIFICATION
@@ -367,45 +199,13 @@ static void lbs_c_evt_handler(ble_lbs_c_t * p_lbs_c, ble_lbs_c_evt_t * p_lbs_c_e
 
 /*************************************************************************************************/
 /** @fcn	static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
- *  @brief	x
+ *  @brief	function for handling BLE events
  *  @details	x
  *
- *  @section	Purpose
- *      x
- *
- *  @param	[in]	name	descrip
- *
- *  @param	[out]	name	descrip
- *
- *  @return	(type) descrip
- *
- *  @pre	x
- *
- *  @post	x
- *
- *  @section	Operation
- *	x
- *		
- *  @section	Opens
- *  	x
- *
- *  @section	Hazards & Risks
- *  	x
- *
- *  @section	Todo
- *	x
- *
- *  @section	Timing
- *  	x
- *
- *  @note     x
+ *  @param      [in] (ble_evt_t const *) p_ble_evt - Bluetooth stack event
+ *  @param      [in] ( void *) p_context - Unused
  */
 /*************************************************************************************************/
-/**@brief Function for handling BLE events.
- *
- * @param[in]   p_ble_evt   Bluetooth stack event.
- * @param[in]   p_context   Unused.
- */
 static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
 
     ret_code_t err_code;
@@ -413,12 +213,10 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
     // For readability.
     ble_gap_evt_t const * p_gap_evt = &p_ble_evt->evt.gap_evt;
 
-    switch (p_ble_evt->header.evt_id)
-    {
+    switch (p_ble_evt->header.evt_id) {
         // Upon connection, check which peripheral has connected (HR or RSC), initiate DB
         // discovery, update LEDs status and resume scanning if necessary. */
-        case BLE_GAP_EVT_CONNECTED:
-        {
+        case BLE_GAP_EVT_CONNECTED: {
             NRF_LOG_INFO("Connected.");
             err_code = ble_lbs_c_handles_assign(&m_ble_lbs_c, p_gap_evt->conn_handle, NULL);
             APP_ERROR_CHECK(err_code);
@@ -426,39 +224,33 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
             err_code = ble_db_discovery_start(&m_db_disc, p_gap_evt->conn_handle);
             APP_ERROR_CHECK(err_code);
 
-            // Update LEDs status, and check if we should be looking for more
-            // peripherals to connect to.
+            // Update LEDs status, and check if we should be looking for more periphs to connect to.
             bsp_board_led_on(CENTRAL_CONNECTED_LED);
             bsp_board_led_off(CENTRAL_SCANNING_LED);
         } break;
 
         // Upon disconnection, reset the connection handle of the peer which disconnected, update
         // the LEDs status and start scanning again.
-        case BLE_GAP_EVT_DISCONNECTED:
-        {
+        case BLE_GAP_EVT_DISCONNECTED: {
             NRF_LOG_INFO("Disconnected.");
             scan_start();
         } break;
 
-        case BLE_GAP_EVT_TIMEOUT:
-        {
+        case BLE_GAP_EVT_TIMEOUT: {
             // We have not specified a timeout for scanning, so only connection attemps can timeout.
-            if (p_gap_evt->params.timeout.src == BLE_GAP_TIMEOUT_SRC_CONN)
-            {
+            if (p_gap_evt->params.timeout.src == BLE_GAP_TIMEOUT_SRC_CONN) {
                 NRF_LOG_DEBUG("Connection request timed out.");
             }
         } break;
 
-        case BLE_GAP_EVT_CONN_PARAM_UPDATE_REQUEST:
-        {
+        case BLE_GAP_EVT_CONN_PARAM_UPDATE_REQUEST: {
             // Accept parameters requested by peer.
             err_code = sd_ble_gap_conn_param_update(p_gap_evt->conn_handle,
                                         &p_gap_evt->params.conn_param_update_request.conn_params);
             APP_ERROR_CHECK(err_code);
         } break;
 
-        case BLE_GAP_EVT_PHY_UPDATE_REQUEST:
-        {
+        case BLE_GAP_EVT_PHY_UPDATE_REQUEST: {
             NRF_LOG_DEBUG("PHY update request.");
             ble_gap_phys_t const phys =
             {
@@ -469,8 +261,7 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
             APP_ERROR_CHECK(err_code);
         } break;
 
-        case BLE_GATTC_EVT_TIMEOUT:
-        {
+        case BLE_GATTC_EVT_TIMEOUT: {
             // Disconnect on GATT Client timeout event.
             NRF_LOG_DEBUG("GATT Client Timeout.");
             err_code = sd_ble_gap_disconnect(p_ble_evt->evt.gattc_evt.conn_handle,
@@ -478,8 +269,7 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
             APP_ERROR_CHECK(err_code);
         } break;
 
-        case BLE_GATTS_EVT_TIMEOUT:
-        {
+        case BLE_GATTS_EVT_TIMEOUT: {
             // Disconnect on GATT Server timeout event.
             NRF_LOG_DEBUG("GATT Server Timeout.");
             err_code = sd_ble_gap_disconnect(p_ble_evt->evt.gatts_evt.conn_handle,
@@ -502,8 +292,8 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
  *  @details	x
  */
 /*************************************************************************************************/
-static void lbs_c_init(void)
-{
+static void lbs_c_init(void) {
+
     ret_code_t       err_code;
     ble_lbs_c_init_t lbs_c_init_obj;
 
@@ -513,49 +303,17 @@ static void lbs_c_init(void)
 
     err_code = ble_lbs_c_init(&m_ble_lbs_c, &lbs_c_init_obj);
     APP_ERROR_CHECK(err_code);
+
+    return;
 }
 
 
 /*************************************************************************************************/
 /** @fcn	static void ble_stack_init(void)
- *  @brief	x
- *  @details	x
- *
- *  @section	Purpose
- *      x
- *
- *  @param	[in]	name	descrip
- *
- *  @param	[out]	name	descrip
- *
- *  @return	(type) descrip
- *
- *  @pre	x
- *
- *  @post	x
- *
- *  @section	Operation
- *	x
- *		
- *  @section	Opens
- *  	x
- *
- *  @section	Hazards & Risks
- *  	x
- *
- *  @section	Todo
- *	x
- *
- *  @section	Timing
- *  	x
- *
- *  @note     x
+ *  @brief	function for initializing the BLE stack
+ *  @details	initializes the SoftDevice and the BLE event interrupts
  */
 /*************************************************************************************************/
-/**@brief Function for initializing the BLE stack.
- *
- * @details Initializes the SoftDevice and the BLE event interrupts.
- */
 static void ble_stack_init(void) {
 
     ret_code_t err_code;
@@ -582,61 +340,26 @@ static void ble_stack_init(void) {
 
 /*************************************************************************************************/
 /** @fcn	static void button_event_handler(uint8_t pin_no, uint8_t button_action)
- *  @brief	x
+ *  @brief	function for handling events from the button handler module
  *  @details	x
  *
- *  @section	Purpose
- *      x
- *
- *  @param	[in]	name	descrip
- *
- *  @param	[out]	name	descrip
- *
- *  @return	(type) descrip
- *
- *  @pre	x
- *
- *  @post	x
- *
- *  @section	Operation
- *	x
- *		
- *  @section	Opens
- *  	x
- *
- *  @section	Hazards & Risks
- *  	x
- *
- *  @section	Todo
- *	x
- *
- *  @section	Timing
- *  	x
- *
- *  @note     x
+ *  @param      [in] (uint8_t) pin_no - The pin that the event applies to.
+ *  @param      [in] (uint8_t) button_action - The button action (press/release).
  */
 /*************************************************************************************************/
-/**@brief Function for handling events from the button handler module.
- *
- * @param[in] pin_no        The pin that the event applies to.
- * @param[in] button_action The button action (press/release).
- */
 static void button_event_handler(uint8_t pin_no, uint8_t button_action) {
 
     ret_code_t err_code;
 
-    switch (pin_no)
-    {
+    switch (pin_no) {
+
         case LEDBUTTON_BUTTON_PIN:
             err_code = ble_lbs_led_status_send(&m_ble_lbs_c, button_action);
-            if (err_code != NRF_SUCCESS &&
-                err_code != BLE_ERROR_INVALID_CONN_HANDLE &&
-                err_code != NRF_ERROR_INVALID_STATE)
-            {
+            if ((err_code != NRF_SUCCESS) && (err_code != BLE_ERROR_INVALID_CONN_HANDLE) && (err_code != NRF_ERROR_INVALID_STATE)) {
                 APP_ERROR_CHECK(err_code);
             }
-            if (err_code == NRF_SUCCESS)
-            {
+
+            if (err_code == NRF_SUCCESS) {
                 NRF_LOG_INFO("LBS write LED state %d", button_action);
             }
             break;
@@ -652,50 +375,17 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action) {
 
 /*************************************************************************************************/
 /** @fcn	static void scan_evt_handler(scan_evt_t const * p_scan_evt)
- *  @brief	x
+ *  @brief	function for handling Scaning events
  *  @details	x
  *
- *  @section	Purpose
- *      x
- *
- *  @param	[in]	name	descrip
- *
- *  @param	[out]	name	descrip
- *
- *  @return	(type) descrip
- *
- *  @pre	x
- *
- *  @post	x
- *
- *  @section	Operation
- *	x
- *		
- *  @section	Opens
- *  	x
- *
- *  @section	Hazards & Risks
- *  	x
- *
- *  @section	Todo
- *	x
- *
- *  @section	Timing
- *  	x
- *
- *  @note     x
+ *  @param	[in] ((scan_evt_t const *) p_scan_evt - Scanning event
  */
 /*************************************************************************************************/
-/**@brief Function for handling Scaning events.
- *
- * @param[in]   p_scan_evt   Scanning event.
- */
 static void scan_evt_handler(scan_evt_t const * p_scan_evt) {
 
     ret_code_t err_code;
 
-    switch(p_scan_evt->scan_evt_id)
-    {
+    switch(p_scan_evt->scan_evt_id) {
         case NRF_BLE_SCAN_EVT_CONNECTING_ERROR:
             err_code = p_scan_evt->params.connecting_err.err_code;
             APP_ERROR_CHECK(err_code);
@@ -724,8 +414,7 @@ static void buttons_init(void) {
         {LEDBUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler}
     };
 
-    err_code = app_button_init(buttons, ARRAY_SIZE(buttons),
-                               BUTTON_DETECTION_DELAY);
+    err_code = app_button_init(buttons, ARRAY_SIZE(buttons), BUTTON_DETECTION_DELAY);
     APP_ERROR_CHECK(err_code);
 
     return;
@@ -734,48 +423,14 @@ static void buttons_init(void) {
 
 /*************************************************************************************************/
 /** @fcn	static void db_disc_handler(ble_db_discovery_evt_t * p_evt)
- *  @brief	x
- *  @details	x
+ *  @brief	function for handling database discovery events
+ *  @details	This function is callback function to handle events from the database discovery 
+ *              module. Depending on the UUIDs that are discovered, this function should forward 
+ *              the events to their respective services
  *
- *  @section	Purpose
- *      x
- *
- *  @param	[in]	name	descrip
- *
- *  @param	[out]	name	descrip
- *
- *  @return	(type) descrip
- *
- *  @pre	x
- *
- *  @post	x
- *
- *  @section	Operation
- *	x
- *		
- *  @section	Opens
- *  	x
- *
- *  @section	Hazards & Risks
- *  	x
- *
- *  @section	Todo
- *	x
- *
- *  @section	Timing
- *  	x
- *
- *  @note     x
+ *  @param	[in] (ble_db_discovery_evt_t *) p_event - Pointer to the database discovery event
  */
 /*************************************************************************************************/
-/**@brief Function for handling database discovery events.
- *
- * @details This function is callback function to handle events from the database discovery module.
- *          Depending on the UUIDs that are discovered, this function should forward the events
- *          to their respective services.
- *
- * @param[in] p_event  Pointer to the database discovery event.
- */
 static void db_disc_handler(ble_db_discovery_evt_t * p_evt) {
 
     ble_lbs_on_db_disc_evt(&m_ble_lbs_c, p_evt);
@@ -786,42 +441,10 @@ static void db_disc_handler(ble_db_discovery_evt_t * p_evt) {
 
 /*************************************************************************************************/
 /** @fcn	static void db_discovery_init(void)
- *  @brief	x
+ *  @brief	database discovery initialization
  *  @details	x
- *
- *  @section	Purpose
- *      x
- *
- *  @param	[in]	name	descrip
- *
- *  @param	[out]	name	descrip
- *
- *  @return	(type) descrip
- *
- *  @pre	x
- *
- *  @post	x
- *
- *  @section	Operation
- *	x
- *		
- *  @section	Opens
- *  	x
- *
- *  @section	Hazards & Risks
- *  	x
- *
- *  @section	Todo
- *	x
- *
- *  @section	Timing
- *  	x
- *
- *  @note     x
  */
 /*************************************************************************************************/
-/**@brief Database discovery initialization.
- */
 static void db_discovery_init(void) {
 
     ble_db_discovery_init_t db_init;
@@ -840,42 +463,10 @@ static void db_discovery_init(void) {
 
 /*************************************************************************************************/
 /** @fcn	static void log_init(void)
- *  @brief	x
+ *  @brief	function for initializing the log
  *  @details	x
- *
- *  @section	Purpose
- *      x
- *
- *  @param	[in]	name	descrip
- *
- *  @param	[out]	name	descrip
- *
- *  @return	(type) descrip
- *
- *  @pre	x
- *
- *  @post	x
- *
- *  @section	Operation
- *	x
- *		
- *  @section	Opens
- *  	x
- *
- *  @section	Hazards & Risks
- *  	x
- *
- *  @section	Todo
- *	x
- *
- *  @section	Timing
- *  	x
- *
- *  @note     x
  */
 /*************************************************************************************************/
-/**@brief Function for initializing the log.
- */
 static void log_init(void) {
 
     ret_code_t err_code = NRF_LOG_INIT(NULL);
@@ -922,36 +513,6 @@ static void power_management_init(void) {
 /** @fcn	static void scan_init(void)
  *  @brief	x
  *  @details	x
- *
- *  @section	Purpose
- *      x
- *
- *  @param	[in]	name	descrip
- *
- *  @param	[out]	name	descrip
- *
- *  @return	(type) descrip
- *
- *  @pre	x
- *
- *  @post	x
- *
- *  @section	Operation
- *	x
- *		
- *  @section	Opens
- *  	x
- *
- *  @section	Hazards & Risks
- *  	x
- *
- *  @section	Todo
- *	x
- *
- *  @section	Timing
- *  	x
- *
- *  @note     x
  */
 /*************************************************************************************************/
 static void scan_init(void) {
@@ -997,36 +558,6 @@ static void gatt_init(void) {
 /** @fcn	static void idle_state_handle(void)
  *  @brief	function for handling the idle state (main loop)
  *  @details	handle any pending log operation(s), then sleep until the next event occurs
- *
- *  @section	Purpose
- *      x
- *
- *  @param	[in]	name	descrip
- *
- *  @param	[out]	name	descrip
- *
- *  @return	(type) descrip
- *
- *  @pre	x
- *
- *  @post	x
- *
- *  @section	Operation
- *	x
- *		
- *  @section	Opens
- *  	x
- *
- *  @section	Hazards & Risks
- *  	x
- *
- *  @section	Todo
- *	x
- *
- *  @section	Timing
- *  	x
- *
- *  @note     x
  */
 /*************************************************************************************************/
 static void idle_state_handle(void) {
@@ -1042,39 +573,12 @@ static void idle_state_handle(void) {
 /** @fcn	int main(void)
  *  @brief	function for application main entry
  *  @details	x
- *
- *  @section	Purpose
- *      x
- *
- *  @param	[in]	name	descrip
- *
- *  @param	[out]	name	descrip
- *
- *  @return	(type) descrip
- *
- *  @pre	x
- *
- *  @post	x
- *
- *  @section	Operation
- *	x
  *		
  *  @section	Opens
  *     stdComments
  *     printf on activities
  *     activities for all buttons
  *     ...!
- *
- *  @section	Hazards & Risks
- *  	x
- *
- *  @section	Todo
- *	x
- *
- *  @section	Timing
- *  	x
- *
- *  @note     x
  */
 /*************************************************************************************************/
 int main(void) {
@@ -1103,3 +607,4 @@ int main(void) {
         idle_state_handle();
     }
 }
+
