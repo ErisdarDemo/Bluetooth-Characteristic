@@ -58,8 +58,7 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="30" y="567" useTextEdit="1" path="main.c" left="0" top="539" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="131" y="67" useTextEdit="1" path="../../../../../../../Ref/Templates/stdcomments.h" left="0" selected="1" top="57" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="729" useTextEdit="1" path="main.c" left="0" selected="1" top="688" codecName="Default"/>
  </Files>
  <EMStudioWindow activeProject="ble_app_blinky_pca10040_s132" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>

@@ -23,6 +23,7 @@
  <Project>
   <ProjectSessionItem path="ble_app_blinky_pca10056_s140"/>
   <ProjectSessionItem path="ble_app_blinky_pca10056_s140;ble_app_blinky_pca10056_s140"/>
+  <ProjectSessionItem path="ble_app_blinky_pca10056_s140;ble_app_blinky_pca10056_s140;Application"/>
   <ProjectSessionItem path="ble_app_blinky_pca10056_s140;ble_app_blinky_pca10056_s140;Ref"/>
  </Project>
  <Register1>
@@ -56,8 +57,7 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="59" y="549" useTextEdit="1" path="main.c" left="0" top="533" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="14" y="56" useTextEdit="1" path="../../../../../../../Ref/Templates/stdcomments.h" left="0" selected="1" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="25" y="719" useTextEdit="1" path="main.c" left="0" selected="1" top="682" codecName="Default"/>
  </Files>
  <EMStudioWindow activeProject="ble_app_blinky_pca10056_s140" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>
