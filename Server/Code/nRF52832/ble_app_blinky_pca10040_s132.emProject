@@ -58,6 +58,9 @@
       <file file_name="C:/Sw/Nordic/nRF5_SDK_17.1.0/modules/nrfx/mdk/ses_startup_nrf_common.s" />
       <file file_name="C:/Sw/Nordic/nRF5_SDK_17.1.0/modules/nrfx/mdk/system_nrf52.c" />
     </folder>
+    <folder Name="Ref">
+      <file file_name="../../../../../../../Ref/Templates/stdcomments.h" />
+    </folder>
     <folder Name="Segger Startup Files">
       <file file_name="$(StudioDir)/source/thumb_crt0.s" />
     </folder>

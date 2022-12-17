@@ -561,6 +561,12 @@ static void idle_state_handle(void)
 
 
 /**@brief Function for application main entry.
+ *
+ * @section   Opens
+ *     stdComments
+ *     printf on activities
+ *     activities for all buttons
+ *     ...!
  */
 int main(void)
 {
