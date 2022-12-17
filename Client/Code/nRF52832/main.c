@@ -139,9 +139,12 @@ static void leds_init(void) {
 /*************************************************************************************************/
 static void scan_start(void) {
 
+    //Locals
     ret_code_t err_code;
 
+
     err_code = nrf_ble_scan_start(&m_scan);
+    
     APP_ERROR_CHECK(err_code);
 
     bsp_board_led_off(CENTRAL_CONNECTED_LED);
@@ -169,28 +172,33 @@ static void lbs_c_evt_handler(ble_lbs_c_t * p_lbs_c, ble_lbs_c_evt_t * p_lbs_c_e
             err_code = ble_lbs_c_handles_assign(&m_ble_lbs_c,
                                                 p_lbs_c_evt->conn_handle,
                                                 &p_lbs_c_evt->params.peer_db);
+
             NRF_LOG_INFO("LED Button service discovered on conn_handle 0x%x.", p_lbs_c_evt->conn_handle);
 
             err_code = app_button_enable();
+            
             APP_ERROR_CHECK(err_code);
 
             // LED Button service discovered. Enable notification of Button.
             err_code = ble_lbs_c_button_notif_enable(p_lbs_c);
+            
             APP_ERROR_CHECK(err_code);
-        } break; // BLE_LBS_C_EVT_DISCOVERY_COMPLETE
+
+        } break;
 
         case BLE_LBS_C_EVT_BUTTON_NOTIFICATION: {
+            
             NRF_LOG_INFO("Button state changed on peer to 0x%x.", p_lbs_c_evt->params.button.button_state);
+            
             if (p_lbs_c_evt->params.button.button_state) {
                 bsp_board_led_on(LEDBUTTON_LED);
             } else {
                 bsp_board_led_off(LEDBUTTON_LED);
             }
-        } break; // BLE_LBS_C_EVT_BUTTON_NOTIFICATION
+        } break;
 
         default:
-            // No implementation needed.
-            break;
+            break;                                /* no resp                                     */
     }
 
     return;
@@ -208,9 +216,11 @@ static void lbs_c_evt_handler(ble_lbs_c_t * p_lbs_c, ble_lbs_c_evt_t * p_lbs_c_e
 /*************************************************************************************************/
 static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
 
+    //Locals
     ret_code_t err_code;
 
-    // For readability.
+
+    // For readability
     ble_gap_evt_t const * p_gap_evt = &p_ble_evt->evt.gap_evt;
 
     switch (p_ble_evt->header.evt_id) {
@@ -219,9 +229,11 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
         case BLE_GAP_EVT_CONNECTED: {
             NRF_LOG_INFO("Connected.");
             err_code = ble_lbs_c_handles_assign(&m_ble_lbs_c, p_gap_evt->conn_handle, NULL);
+            
             APP_ERROR_CHECK(err_code);
 
             err_code = ble_db_discovery_start(&m_db_disc, p_gap_evt->conn_handle);
+            
             APP_ERROR_CHECK(err_code);
 
             // Update LEDs status, and check if we should be looking for more periphs to connect to.
@@ -245,41 +257,41 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
 
         case BLE_GAP_EVT_CONN_PARAM_UPDATE_REQUEST: {
             // Accept parameters requested by peer.
-            err_code = sd_ble_gap_conn_param_update(p_gap_evt->conn_handle,
-                                        &p_gap_evt->params.conn_param_update_request.conn_params);
+            err_code = sd_ble_gap_conn_param_update(p_gap_evt->conn_handle, &p_gap_evt->params.conn_param_update_request.conn_params);
+
             APP_ERROR_CHECK(err_code);
         } break;
 
         case BLE_GAP_EVT_PHY_UPDATE_REQUEST: {
             NRF_LOG_DEBUG("PHY update request.");
-            ble_gap_phys_t const phys =
-            {
-                .rx_phys = BLE_GAP_PHY_AUTO,
-                .tx_phys = BLE_GAP_PHY_AUTO,
-            };
+
+            ble_gap_phys_t const phys = {.rx_phys = BLE_GAP_PHY_AUTO, .tx_phys = BLE_GAP_PHY_AUTO};
+
             err_code = sd_ble_gap_phy_update(p_ble_evt->evt.gap_evt.conn_handle, &phys);
+            
             APP_ERROR_CHECK(err_code);
         } break;
 
         case BLE_GATTC_EVT_TIMEOUT: {
             // Disconnect on GATT Client timeout event.
             NRF_LOG_DEBUG("GATT Client Timeout.");
-            err_code = sd_ble_gap_disconnect(p_ble_evt->evt.gattc_evt.conn_handle,
-                                             BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
+           
+            err_code = sd_ble_gap_disconnect(p_ble_evt->evt.gattc_evt.conn_handle, BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
+           
             APP_ERROR_CHECK(err_code);
         } break;
 
         case BLE_GATTS_EVT_TIMEOUT: {
             // Disconnect on GATT Server timeout event.
             NRF_LOG_DEBUG("GATT Server Timeout.");
-            err_code = sd_ble_gap_disconnect(p_ble_evt->evt.gatts_evt.conn_handle,
-                                             BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
+            
+            err_code = sd_ble_gap_disconnect(p_ble_evt->evt.gatts_evt.conn_handle, BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
+            
             APP_ERROR_CHECK(err_code);
         } break;
 
         default:
-            // No implementation needed.
-            break;
+             break;                                /* no resp                                     */
     }
 
     return;
@@ -294,14 +306,17 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
 /*************************************************************************************************/
 static void lbs_c_init(void) {
 
-    ret_code_t       err_code;
+    //Locals
+    ret_code_t err_code;
     ble_lbs_c_init_t lbs_c_init_obj;
+
 
     lbs_c_init_obj.evt_handler   = lbs_c_evt_handler;
     lbs_c_init_obj.p_gatt_queue  = &m_ble_gatt_queue;
     lbs_c_init_obj.error_handler = lbs_error_handler;
 
     err_code = ble_lbs_c_init(&m_ble_lbs_c, &lbs_c_init_obj);
+    
     APP_ERROR_CHECK(err_code);
 
     return;
@@ -316,19 +331,25 @@ static void lbs_c_init(void) {
 /*************************************************************************************************/
 static void ble_stack_init(void) {
 
+    //Locals
     ret_code_t err_code;
+    uint32_t ram_start;
+
 
     err_code = nrf_sdh_enable_request();
+   
     APP_ERROR_CHECK(err_code);
 
     // Configure the BLE stack using the default settings.
     // Fetch the start address of the application RAM.
-    uint32_t ram_start = 0;
+    ram_start = 0;
     err_code = nrf_sdh_ble_default_cfg_set(APP_BLE_CONN_CFG_TAG, &ram_start);
+    
     APP_ERROR_CHECK(err_code);
 
     // Enable BLE stack.
     err_code = nrf_sdh_ble_enable(&ram_start);
+    
     APP_ERROR_CHECK(err_code);
 
     // Register a handler for BLE events.
@@ -349,7 +370,9 @@ static void ble_stack_init(void) {
 /*************************************************************************************************/
 static void button_event_handler(uint8_t pin_no, uint8_t button_action) {
 
+    //Locals
     ret_code_t err_code;
+
 
     switch (pin_no) {
 
@@ -383,12 +406,16 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action) {
 /*************************************************************************************************/
 static void scan_evt_handler(scan_evt_t const * p_scan_evt) {
 
+    //Locals
     ret_code_t err_code;
 
     switch(p_scan_evt->scan_evt_id) {
         case NRF_BLE_SCAN_EVT_CONNECTING_ERROR:
+            
             err_code = p_scan_evt->params.connecting_err.err_code;
+            
             APP_ERROR_CHECK(err_code);
+            
             break;
         default:
           break;
@@ -400,21 +427,25 @@ static void scan_evt_handler(scan_evt_t const * p_scan_evt) {
 
 /*************************************************************************************************/
 /** @fcn	static void buttons_init(void)
- *  @brief	function for initializing the button handler modul
+ *  @brief	function for initializing the button handler module
  *  @details	x
+ *
+ *  @note   buttons are static so a ptr to it will be saved in the button handler module
  */
 /*************************************************************************************************/
 static void buttons_init(void) {
 
+    //Locals
     ret_code_t err_code;
 
-    //The array must be static because a pointer to it will be saved in the button handler module.
+    //The 
     static app_button_cfg_t buttons[] =
     {
         {LEDBUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler}
     };
 
     err_code = app_button_init(buttons, ARRAY_SIZE(buttons), BUTTON_DETECTION_DELAY);
+    
     APP_ERROR_CHECK(err_code);
 
     return;
@@ -447,14 +478,17 @@ static void db_disc_handler(ble_db_discovery_evt_t * p_evt) {
 /*************************************************************************************************/
 static void db_discovery_init(void) {
 
+    //Locals
     ble_db_discovery_init_t db_init;
 
+    //Init
     memset(&db_init, 0, sizeof(db_init));
 
     db_init.evt_handler  = db_disc_handler;
     db_init.p_gatt_queue = &m_ble_gatt_queue;
 
     ret_code_t err_code = ble_db_discovery_init(&db_init);
+    
     APP_ERROR_CHECK(err_code);
 
     return;
@@ -469,7 +503,12 @@ static void db_discovery_init(void) {
 /*************************************************************************************************/
 static void log_init(void) {
 
-    ret_code_t err_code = NRF_LOG_INIT(NULL);
+    //Locals
+    ret_code_t err_code;
+ 
+    //Init
+    err_code = NRF_LOG_INIT(NULL);
+    
     APP_ERROR_CHECK(err_code);
 
     NRF_LOG_DEFAULT_BACKENDS_INIT();
@@ -486,7 +525,12 @@ static void log_init(void) {
 /*************************************************************************************************/
 static void timer_init(void) {
 
-    ret_code_t err_code = app_timer_init();
+    //Locals
+    ret_code_t err_code;
+    
+    //Init
+    err_code = app_timer_init();
+    
     APP_ERROR_CHECK(err_code);
 
     return;
@@ -501,8 +545,12 @@ static void timer_init(void) {
 /*************************************************************************************************/
 static void power_management_init(void) {
 
+    //Locals
     ret_code_t err_code;
+
+    //Init
     err_code = nrf_pwr_mgmt_init();
+    
     APP_ERROR_CHECK(err_code);
 
     return;
@@ -517,22 +565,28 @@ static void power_management_init(void) {
 /*************************************************************************************************/
 static void scan_init(void) {
 
-    ret_code_t          err_code;
+    //Locals
+    ret_code_t err_code;
     nrf_ble_scan_init_t init_scan;
 
+    
+    //Init
     memset(&init_scan, 0, sizeof(init_scan));
 
     init_scan.connect_if_match = true;
     init_scan.conn_cfg_tag     = APP_BLE_CONN_CFG_TAG;
 
     err_code = nrf_ble_scan_init(&m_scan, &init_scan, scan_evt_handler);
+    
     APP_ERROR_CHECK(err_code);
 
     // Setting filters for scanning.
     err_code = nrf_ble_scan_filters_enable(&m_scan, NRF_BLE_SCAN_NAME_FILTER, false);
+    
     APP_ERROR_CHECK(err_code);
 
     err_code = nrf_ble_scan_filter_set(&m_scan, SCAN_NAME_FILTER, m_target_periph_name);
+    
     APP_ERROR_CHECK(err_code);
 
     return;
@@ -547,7 +601,12 @@ static void scan_init(void) {
 /*************************************************************************************************/
 static void gatt_init(void) {
 
-    ret_code_t err_code = nrf_ble_gatt_init(&m_gatt, NULL);
+    //Locals
+    ret_code_t err_code;
+    
+    //Init
+    err_code = nrf_ble_gatt_init(&m_gatt, NULL);
+    
     APP_ERROR_CHECK(err_code);
 
     return;
@@ -575,7 +634,6 @@ static void idle_state_handle(void) {
  *  @details	x
  *		
  *  @section	Opens
- *     stdComments
  *     printf on activities
  *     activities for all buttons
  *     ...!
