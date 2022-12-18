@@ -6,12 +6,13 @@
  *  @author	Justin Reina, Firmware Engineer
  *  @source     examples\ble_peripheral\ble_app_blinky
  *  @created	12/16/22
- *  @last rev	12/16/22
+ *  @last rev	12/18/22
  *
  *
  *  @section	Opens
- *      globals to all
+ *      extract globals.h:52-58 to undeffed, non-static declarations
  *      btlib.c/h
+ *      system.c/h
  *      tie all (4) LED/Button pairs (sep bt-chars?)
  *      break into demo form
  *       flush out distracting content to bt_lib.c/h
@@ -31,14 +32,14 @@
 
 
 //Local Constants
-static uint16_t m_conn_handle = BLE_CONN_HANDLE_INVALID;                        /* Handle of the current connection                                                                   */
+uint16_t m_conn_handle = BLE_CONN_HANDLE_INVALID;                        /* Handle of the current connection                                                                   */
 
-static uint8_t m_adv_handle = BLE_GAP_ADV_SET_HANDLE_NOT_SET;                   /* Advertising handle used to identify an advertising set                                             */
-static uint8_t m_enc_advdata[BLE_GAP_ADV_SET_DATA_SIZE_MAX];                    /* Buffer for storing an encoded advertising set                                                      */
-static uint8_t m_enc_scan_response_data[BLE_GAP_ADV_SET_DATA_SIZE_MAX];         /* Buffer for storing an encoded scan data                                                            */
+uint8_t m_adv_handle = BLE_GAP_ADV_SET_HANDLE_NOT_SET;                   /* Advertising handle used to identify an advertising set                                             */
+uint8_t m_enc_advdata[BLE_GAP_ADV_SET_DATA_SIZE_MAX];                    /* Buffer for storing an encoded advertising set                                                      */
+uint8_t m_enc_scan_response_data[BLE_GAP_ADV_SET_DATA_SIZE_MAX];         /* Buffer for storing an encoded scan data                                                            */
 
 /**@brief Struct that contains pointers to the encoded advertising data. */
-static ble_gap_adv_data_t m_adv_data =
+ble_gap_adv_data_t m_adv_data =
 {
     .adv_data =
     {
@@ -74,12 +75,12 @@ void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void leds_init(void)
+/** @fcn	void leds_init(void)
  *  @brief	function for the LEDs initialization
  *  @details	initializes all LEDs used by the application
  */
 /*************************************************************************************************/
-static void leds_init(void) {
+void leds_init(void) {
 
     bsp_board_init(BSP_INIT_LEDS);
 
@@ -88,12 +89,12 @@ static void leds_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void timers_init(void)
+/** @fcn	void timers_init(void)
  *  @brief	function for the Timer initialization
  *  @details	initializes the timer module
  */
 /*************************************************************************************************/
-static void timers_init(void) {
+void timers_init(void) {
 
     //Locals
     ret_code_t err_code;
@@ -109,13 +110,13 @@ static void timers_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void gap_params_init(void)
+/** @fcn	void gap_params_init(void)
  *  @brief	function for the GAP initialization
  *  @details	Sets up all necessary GAP params of the device including the device name, 
  *              appearance, and the preferred connection parameters.
  */
 /*************************************************************************************************/
-static void gap_params_init(void) {
+void gap_params_init(void) {
 
     //Locals
     ret_code_t              err_code;
@@ -145,12 +146,12 @@ static void gap_params_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void gatt_init(void)
+/** @fcn	void gatt_init(void)
  *  @brief	function for initializing the GATT module
  *  @details	x
  */
 /*************************************************************************************************/
-static void gatt_init(void) {
+void gatt_init(void) {
 
     //Locals
     ret_code_t err_code;
@@ -166,13 +167,13 @@ static void gatt_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void advertising_init(void)
+/** @fcn	void advertising_init(void)
  *  @brief	function for initializing the Advertising functionality
  *  @details	encodes the required advertising data and passes it to the stack. Also builds a 
  *              structure to be passed to the stack when starting advertising.
  */
 /*************************************************************************************************/
-static void advertising_init(void) {
+void advertising_init(void) {
 
     //Locals
     ret_code_t    err_code;
@@ -223,7 +224,7 @@ static void advertising_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void nrf_qwr_error_handler(uint32_t nrf_error)
+/** @fcn	void nrf_qwr_error_handler(uint32_t nrf_error)
  *  @brief	function for handling Queued Write Module errors
  *  @details	a pointer to this function will be passed to each service which may need to 
  *              inform the application about an error.
@@ -231,7 +232,7 @@ static void advertising_init(void) {
  *  @param	[in] (uint32_t) nrf_error - Error code containing information about what went wrong.
  */
 /*************************************************************************************************/
-static void nrf_qwr_error_handler(uint32_t nrf_error) {
+void nrf_qwr_error_handler(uint32_t nrf_error) {
 
     APP_ERROR_HANDLER(nrf_error);
 
@@ -240,7 +241,7 @@ static void nrf_qwr_error_handler(uint32_t nrf_error) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void led_write_handler(uint16_t conn_handle, ble_lbs_t * p_lbs, uint8_t led_state)
+/** @fcn	void led_write_handler(uint16_t conn_handle, ble_lbs_t * p_lbs, uint8_t led_state)
  *  @brief	function for handling write events to the LED characteristic
  *  @details	x
  *
@@ -249,7 +250,7 @@ static void nrf_qwr_error_handler(uint32_t nrf_error) {
  *  @param      [in] (uint8_t) led_state - Written/desired state of the LED.
  */
 /*************************************************************************************************/
-static void led_write_handler(uint16_t conn_handle, ble_lbs_t * p_lbs, uint8_t led_state) {
+void led_write_handler(uint16_t conn_handle, ble_lbs_t * p_lbs, uint8_t led_state) {
 
     if (led_state) {
         bsp_board_led_on(LEDBUTTON_LED);
@@ -264,12 +265,12 @@ static void led_write_handler(uint16_t conn_handle, ble_lbs_t * p_lbs, uint8_t l
 
 
 /*************************************************************************************************/
-/** @fcn	static void services_init(void)
+/** @fcn	void services_init(void)
  *  @brief	function for initializing services that will be used by the application
  *  @details	x
  */
 /*************************************************************************************************/
-static void services_init(void) {
+void services_init(void) {
 
     //Locals
     ret_code_t         err_code;
@@ -295,7 +296,7 @@ static void services_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void on_conn_params_evt(ble_conn_params_evt_t * p_evt)
+/** @fcn	void on_conn_params_evt(ble_conn_params_evt_t * p_evt)
  *  @brief	function for handling the Connection Parameters Module
  *  @details	this function will be called for all events in the Connection Parameters Module 
  *              that are passed to the application
@@ -309,7 +310,7 @@ static void services_init(void) {
  *      demonstrate its use.
  */
 /*************************************************************************************************/
-static void on_conn_params_evt(ble_conn_params_evt_t * p_evt) {
+void on_conn_params_evt(ble_conn_params_evt_t * p_evt) {
 
     //Locals
     ret_code_t err_code;
@@ -326,14 +327,14 @@ static void on_conn_params_evt(ble_conn_params_evt_t * p_evt) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void conn_params_error_handler(uint32_t nrf_error)
+/** @fcn	void conn_params_error_handler(uint32_t nrf_error)
  *  @brief	function for handling a Connection Parameters error
  *  @details	x
  *
  *  @param	[in] (uint32_t)  nrf_error - Error code containing information about what went wrong
  */
 /*************************************************************************************************/
-static void conn_params_error_handler(uint32_t nrf_error) {
+void conn_params_error_handler(uint32_t nrf_error) {
 
     APP_ERROR_HANDLER(nrf_error);
 
@@ -342,12 +343,12 @@ static void conn_params_error_handler(uint32_t nrf_error) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void conn_params_init(void)
+/** @fcn	void conn_params_init(void)
  *  @brief	function for initializing the Connection Parameters module
  *  @details	x
  */
 /*************************************************************************************************/
-static void conn_params_init(void) {
+void conn_params_init(void) {
 
     //Locals
     ret_code_t err_code;
@@ -374,12 +375,12 @@ static void conn_params_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void advertising_start(void)
+/** @fcn	void advertising_start(void)
  *  @brief	function for starting advertising
  *  @details	x
  */
 /*************************************************************************************************/
-static void advertising_start(void) {
+void advertising_start(void) {
 
     //Locasls
     ret_code_t err_code;
@@ -396,7 +397,7 @@ static void advertising_start(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
+/** @fcn	void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
  *  @brief	function for handling BLE events
  *  @details	x
  *
@@ -404,7 +405,7 @@ static void advertising_start(void) {
  *  @param      [in] (void *) p_context - Unused
  */
 /*************************************************************************************************/
-static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
+void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
 
     //Locals
     ret_code_t err_code;
@@ -498,12 +499,12 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void ble_stack_init(void)
+/** @fcn	void ble_stack_init(void)
  *  @brief	function for initializing the BLE stack
  *  @details	initializes the SoftDevice and the BLE event interrupt
  */
 /*************************************************************************************************/
-static void ble_stack_init(void) {
+void ble_stack_init(void) {
 
     //Locals
     ret_code_t err_code;
@@ -534,7 +535,7 @@ static void ble_stack_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void button_event_handler(uint8_t pin_no, uint8_t button_action)
+/** @fcn	void button_event_handler(uint8_t pin_no, uint8_t button_action)
  *  @brief	function for handling events from the button handler module
  *  @details	x
  *
@@ -542,7 +543,7 @@ static void ble_stack_init(void) {
  *  @param      [in] (uint8_t) button_action - the button action (press/release)
  */
 /*************************************************************************************************/
-static void button_event_handler(uint8_t pin_no, uint8_t button_action) {
+void button_event_handler(uint8_t pin_no, uint8_t button_action) {
 
     //Locals
     ret_code_t err_code;
@@ -571,19 +572,19 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void buttons_init(void)
+/** @fcn	void buttons_init(void)
  *  @brief	function for initializing the button handler module
  *  @details	x
  *
- *  @note   buttons are static so a ptr to it will be saved in the button handler module
+ *  @note   buttons are so a ptr to it will be saved in the button handler module
  */
 /*************************************************************************************************/
-static void buttons_init(void) {
+void buttons_init(void) {
 
     //Locals
     ret_code_t err_code;
 
-    static app_button_cfg_t buttons[] =
+    app_button_cfg_t buttons[] =
     {
         {LEDBUTTON_BUTTON, false, BUTTON_PULL, button_event_handler}
     };
@@ -597,12 +598,12 @@ static void buttons_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void log_init(void)
+/** @fcn	void log_init(void)
  *  @brief	x
  *  @details	x
  */
 /*************************************************************************************************/
-static void log_init(void) {
+void log_init(void) {
 
     //Locals
     ret_code_t err_code;
@@ -620,12 +621,12 @@ static void log_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void power_management_init(void)
+/** @fcn	void power_management_init(void)
  *  @brief	function for initializing power management
  *  @details	x
  */
 /*************************************************************************************************/
-static void power_management_init(void) {
+void power_management_init(void) {
 
     //Locals
     ret_code_t err_code;
@@ -640,12 +641,12 @@ static void power_management_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void idle_state_handle(void)
+/** @fcn	void idle_state_handle(void)
  *  @brief	function for handling the idle state (main loop)
  *  @details	if there is no pending log operation, then sleep until next the next event occurs
  */
 /*************************************************************************************************/
-static void idle_state_handle(void) {
+void idle_state_handle(void) {
 
     if (NRF_LOG_PROCESS() == false) {
         nrf_pwr_mgmt_run();

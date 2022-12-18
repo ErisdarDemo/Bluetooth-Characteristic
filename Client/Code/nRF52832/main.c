@@ -6,11 +6,13 @@
  *  @author	Justin Reina, Firmware Engineer
  *  @source     examples\ble_central\ble_app_blinky_c
  *  @created	12/16/22
- *  @last rev	12/16/22
+ *  @last rev	12/18/22
  *
  *
  *  @section	Opens
+ *      extract globals.h:52-58 to undeffed, non-static declarations
  *      btlib.c/h
+ *      system.c/h
  *      tie all (4) LED/Button pairs (sep bt-chars?)
  *      break into demo form
  *       flush out distracting content to bt_lib.c/h
@@ -50,14 +52,14 @@ void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void lbs_error_handler(uint32_t nrf_error)
+/** @fcn	void lbs_error_handler(uint32_t nrf_error)
  *  @brief	function for handling the LED Button Service client errors
  *  @details	x
  *
  *  @param	[in] (uint32_t) nrf_error - Error code containing information about what went wrong
  */
 /*************************************************************************************************/
-static void lbs_error_handler(uint32_t nrf_error) {
+void lbs_error_handler(uint32_t nrf_error) {
 
     APP_ERROR_HANDLER(nrf_error);
 
@@ -66,12 +68,12 @@ static void lbs_error_handler(uint32_t nrf_error) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void leds_init(void)
+/** @fcn	void leds_init(void)
  *  @brief	function for the LEDs initialization
  *  @details	initializes all LEDs used by the application
  */
 /*************************************************************************************************/
-static void leds_init(void) {
+void leds_init(void) {
 
     bsp_board_init(BSP_INIT_LEDS);
 
@@ -80,12 +82,12 @@ static void leds_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void scan_start(void)
+/** @fcn	void scan_start(void)
  *  @brief	function to start scanning
  *  @details	x
  */
 /*************************************************************************************************/
-static void scan_start(void) {
+void scan_start(void) {
 
     //Locals
     ret_code_t err_code;
@@ -103,7 +105,7 @@ static void scan_start(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void lbs_c_evt_handler(ble_lbs_c_t * p_lbs_c, ble_lbs_c_evt_t * p_lbs_c_evt)
+/** @fcn	void lbs_c_evt_handler(ble_lbs_c_t * p_lbs_c, ble_lbs_c_evt_t * p_lbs_c_evt)
  *  @brief	handles events coming from the LED Button central module
  *  @details	x
 *
@@ -111,7 +113,7 @@ static void scan_start(void) {
  *  @param	[in] (ble_lbs_c_evt_t *) p_lbs_c_evt - x
  */
 /*************************************************************************************************/
-static void lbs_c_evt_handler(ble_lbs_c_t * p_lbs_c, ble_lbs_c_evt_t * p_lbs_c_evt) {
+void lbs_c_evt_handler(ble_lbs_c_t * p_lbs_c, ble_lbs_c_evt_t * p_lbs_c_evt) {
 
     switch (p_lbs_c_evt->evt_type) {
         case BLE_LBS_C_EVT_DISCOVERY_COMPLETE: {
@@ -154,7 +156,7 @@ static void lbs_c_evt_handler(ble_lbs_c_t * p_lbs_c, ble_lbs_c_evt_t * p_lbs_c_e
 
 
 /*************************************************************************************************/
-/** @fcn	static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
+/** @fcn	void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
  *  @brief	function for handling BLE events
  *  @details	x
  *
@@ -162,7 +164,7 @@ static void lbs_c_evt_handler(ble_lbs_c_t * p_lbs_c, ble_lbs_c_evt_t * p_lbs_c_e
  *  @param      [in] ( void *) p_context - Unused
  */
 /*************************************************************************************************/
-static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
+void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
 
     //Locals
     ret_code_t err_code;
@@ -247,12 +249,12 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void lbs_c_init(void)
+/** @fcn	void lbs_c_init(void)
  *  @brief	LED Button client initialization
  *  @details	x
  */
 /*************************************************************************************************/
-static void lbs_c_init(void) {
+void lbs_c_init(void) {
 
     //Locals
     ret_code_t err_code;
@@ -272,12 +274,12 @@ static void lbs_c_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void ble_stack_init(void)
+/** @fcn	void ble_stack_init(void)
  *  @brief	function for initializing the BLE stack
  *  @details	initializes the SoftDevice and the BLE event interrupts
  */
 /*************************************************************************************************/
-static void ble_stack_init(void) {
+void ble_stack_init(void) {
 
     //Locals
     ret_code_t err_code;
@@ -308,7 +310,7 @@ static void ble_stack_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void button_event_handler(uint8_t pin_no, uint8_t button_action)
+/** @fcn	void button_event_handler(uint8_t pin_no, uint8_t button_action)
  *  @brief	function for handling events from the button handler module
  *  @details	x
  *
@@ -316,7 +318,7 @@ static void ble_stack_init(void) {
  *  @param      [in] (uint8_t) button_action - The button action (press/release).
  */
 /*************************************************************************************************/
-static void button_event_handler(uint8_t pin_no, uint8_t button_action) {
+void button_event_handler(uint8_t pin_no, uint8_t button_action) {
 
     //Locals
     ret_code_t err_code;
@@ -345,14 +347,14 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void scan_evt_handler(scan_evt_t const * p_scan_evt)
+/** @fcn	void scan_evt_handler(scan_evt_t const * p_scan_evt)
  *  @brief	function for handling Scaning events
  *  @details	x
  *
  *  @param	[in] ((scan_evt_t const *) p_scan_evt - Scanning event
  */
 /*************************************************************************************************/
-static void scan_evt_handler(scan_evt_t const * p_scan_evt) {
+void scan_evt_handler(scan_evt_t const * p_scan_evt) {
 
     //Locals
     ret_code_t err_code;
@@ -374,20 +376,20 @@ static void scan_evt_handler(scan_evt_t const * p_scan_evt) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void buttons_init(void)
+/** @fcn	void buttons_init(void)
  *  @brief	function for initializing the button handler module
  *  @details	x
  *
- *  @note   buttons are static so a ptr to it will be saved in the button handler module
+ *  @note   buttons are so a ptr to it will be saved in the button handler module
  */
 /*************************************************************************************************/
-static void buttons_init(void) {
+void buttons_init(void) {
 
     //Locals
     ret_code_t err_code;
 
     //The 
-    static app_button_cfg_t buttons[] =
+    app_button_cfg_t buttons[] =
     {
         {LEDBUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler}
     };
@@ -401,7 +403,7 @@ static void buttons_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void db_disc_handler(ble_db_discovery_evt_t * p_evt)
+/** @fcn	void db_disc_handler(ble_db_discovery_evt_t * p_evt)
  *  @brief	function for handling database discovery events
  *  @details	This function is callback function to handle events from the database discovery 
  *              module. Depending on the UUIDs that are discovered, this function should forward 
@@ -410,7 +412,7 @@ static void buttons_init(void) {
  *  @param	[in] (ble_db_discovery_evt_t *) p_event - Pointer to the database discovery event
  */
 /*************************************************************************************************/
-static void db_disc_handler(ble_db_discovery_evt_t * p_evt) {
+void db_disc_handler(ble_db_discovery_evt_t * p_evt) {
 
     ble_lbs_on_db_disc_evt(&m_ble_lbs_c, p_evt);
 
@@ -419,12 +421,12 @@ static void db_disc_handler(ble_db_discovery_evt_t * p_evt) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void db_discovery_init(void)
+/** @fcn	void db_discovery_init(void)
  *  @brief	database discovery initialization
  *  @details	x
  */
 /*************************************************************************************************/
-static void db_discovery_init(void) {
+void db_discovery_init(void) {
 
     //Locals
     ble_db_discovery_init_t db_init;
@@ -444,12 +446,12 @@ static void db_discovery_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void log_init(void)
+/** @fcn	void log_init(void)
  *  @brief	function for initializing the log
  *  @details	x
  */
 /*************************************************************************************************/
-static void log_init(void) {
+void log_init(void) {
 
     //Locals
     ret_code_t err_code;
@@ -466,12 +468,12 @@ static void log_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void timer_init(void)
+/** @fcn	void timer_init(void)
  *  @brief	function for initializing the timer
  *  @details	x
  */
 /*************************************************************************************************/
-static void timer_init(void) {
+void timer_init(void) {
 
     //Locals
     ret_code_t err_code;
@@ -486,12 +488,12 @@ static void timer_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void power_management_init(void)
+/** @fcn	void power_management_init(void)
  *  @brief	function for initializing the Power manager
  *  @details	x
  */
 /*************************************************************************************************/
-static void power_management_init(void) {
+void power_management_init(void) {
 
     //Locals
     ret_code_t err_code;
@@ -506,12 +508,12 @@ static void power_management_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void scan_init(void)
+/** @fcn	void scan_init(void)
  *  @brief	x
  *  @details	x
  */
 /*************************************************************************************************/
-static void scan_init(void) {
+void scan_init(void) {
 
     //Locals
     ret_code_t err_code;
@@ -542,12 +544,12 @@ static void scan_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void gatt_init(void)
+/** @fcn	void gatt_init(void)
  *  @brief	function for initializing the GATT module
  *  @details	x
  */
 /*************************************************************************************************/
-static void gatt_init(void) {
+void gatt_init(void) {
 
     //Locals
     ret_code_t err_code;
@@ -562,12 +564,12 @@ static void gatt_init(void) {
 
 
 /*************************************************************************************************/
-/** @fcn	static void idle_state_handle(void)
+/** @fcn	void idle_state_handle(void)
  *  @brief	function for handling the idle state (main loop)
  *  @details	handle any pending log operation(s), then sleep until the next event occurs
  */
 /*************************************************************************************************/
-static void idle_state_handle(void) {
+void idle_state_handle(void) {
 
     NRF_LOG_FLUSH();
     nrf_pwr_mgmt_run();
