@@ -1,0 +1,12 @@
+@brief 		Nordic Response
+@details 	x
+@auth 		Justin Reina
+@date 		12/20/22
+
+@section 	Notes
+	1. not extern duh
+	
+	923 refs to NRF_SDH_BLE_OBSERVER() in SDK
+	
+	2. thank you for the nRF Connect SDK reference, I will try this weekend!
+
